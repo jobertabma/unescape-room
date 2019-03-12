@@ -1,10 +1,13 @@
-export default `
+export default `<!DOCTYPE html>
 <html>
   <head>
     <title>Hello world</title>
+    {listener}
   </head>
   <body>
-    Hello, {payload}
+    <img
+      src="{payload}"
+    />
   </body>
 </html>
 `;
