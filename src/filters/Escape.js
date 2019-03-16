@@ -1,7 +1,17 @@
+import _ from 'underscore';
+
 class Escape {
   process(payload) {
     // should it also escape backticks?
     return payload.replace(/(['"\\])/g, '\\$1');
+  }
+
+  isValidCombination(filters) {
+    let isInvalid = _.some(filters, (filter) => (
+      filter instanceof Escape
+    ));
+
+    return !isInvalid;
   }
 
   static generate(_filters) {

@@ -1,3 +1,5 @@
+import _ from 'underscore';
+
 class StringReverse {
   process(payload) {
     return payload.split("").reverse().join("");
@@ -5,6 +7,14 @@ class StringReverse {
 
   static generate(_filters) {
     return new this();
+  }
+
+  isValidCombination(filters) {
+    let isInvalid = _.some(filters, (filter) => (
+      filter instanceof StringReverse
+    ));
+
+    return !isInvalid;
   }
 }
 

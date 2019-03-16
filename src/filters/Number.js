@@ -5,6 +5,16 @@ class Number {
     return payload.split(String(this.value)).join("");
   }
 
+  isValidCombination(filters) {
+    // make sure we only filter a number once
+    let isInvalid = _.some(filters, (filter) => (
+      filter instanceof Number &&
+        filter.value === this.value
+    ));
+
+    return !isInvalid;
+  }
+
   constructor(value) {
     this.value = value;
   }

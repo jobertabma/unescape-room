@@ -1,3 +1,5 @@
+import _ from 'underscore';
+
 class Atob {
   process(payload) {
     try {
@@ -6,6 +8,14 @@ class Atob {
     catch(_e) {
       return '';
     }
+  }
+
+  isValidCombination(filters) {
+    let isInvalid = _.some(filters, (filter) => (
+      filter instanceof Atob
+    ));
+
+    return !isInvalid;
   }
 
   static generate(_filters) {

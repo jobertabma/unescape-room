@@ -1,3 +1,5 @@
+import _ from 'underscore';
+
 class WhiteSpace {
   process(payload) {
     return payload.replace(/\s+/g, '');
@@ -5,6 +7,14 @@ class WhiteSpace {
 
   static generate(_filters) {
     return new this();
+  }
+
+  isValidCombination(filters) {
+    let isInvalid = _.some(filters, (filter) => (
+      filter instanceof WhiteSpace
+    ));
+
+    return !isInvalid;
   }
 }
 
