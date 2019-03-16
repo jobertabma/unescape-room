@@ -1,8 +1,13 @@
 import _ from 'underscore';
 
-class Number {
+class Atom {
   process(payload) {
-    return payload;
+    try {
+      return atob(payload);
+    }
+    catch(_e) {
+      return '';
+    }
     // return atob(payload);
   }
 
@@ -11,4 +16,4 @@ class Number {
   }
 }
 
-export default Number;
+export default Atom;
