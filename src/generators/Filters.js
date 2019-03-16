@@ -13,6 +13,8 @@ import LengthFilter from '../filters/Length.js';
 import AtobFilter from '../filters/Atob.js';
 import WhiteSpaceFilter from '../filters/WhiteSpace.js';
 
+import ShuffleHelper from '../helpers/Shuffle.js';
+
 class Filters {
   static generate(htmlTemplate, functionToBeCalled, valueToBePassed, filters) {
     let tempFilter;
@@ -67,8 +69,7 @@ class Filters {
       generatedFilters.push(newFilter.generate(filters));
     }
 
-    // the order matters, so shuffle it
-    return generatedFilters;
+    return ShuffleHelper.shuffle(generatedFilters);
   }
 }
 
