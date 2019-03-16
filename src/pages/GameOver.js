@@ -5,6 +5,10 @@ import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 
 class MatchOver extends Component {
+  twitterShareLink() {
+    return 'https://twitter.com/intent/tweet?text=' + this.props.shareMessage
+  }
+
   render() {
     return (
       <div className="gameBox">
@@ -54,7 +58,9 @@ class MatchOver extends Component {
               <br />
               <button onClick={this.props.onMatch}>New match</button>
               <br />
-              <button>Share</button>
+              <a href={this.twitterShareLink()} rel="noopener noreferrer" target="_blank">
+                Share
+              </a>
               <br />
               <button onClick={this.props.onGoHome}>Home</button>
             </div>

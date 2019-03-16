@@ -381,6 +381,7 @@ class App extends Component {
         totalTimeSpent={this.state.totalTimeSpent}
         onPractice={() => this.handleStartGame(this.state.filters.length, false)}
         onMatch={() => this.handleStartGame(0)}
+        shareMessage={`I just completed a game of the unescape() room to improve my XSS skills — I scored ${this.state.totalPoints} points and made it to level ${this.state.filters.length + 1}! https://unescape-room.jobertabma.nl`}
         onGoHome={this.handleGoHome}
         filters={this.state.filters}
       />
