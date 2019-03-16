@@ -15,6 +15,8 @@ import Menu from './pages/Menu.js';
 import HowTo from './pages/HowTo.js';
 import LevelCompleted from './pages/LevelCompleted.js';
 import GameOver from './pages/GameOver.js';
+import Match from './pages/Match.js';
+import Practice from './pages/Practice.js';
 
 import CodeEditor from './components/CodeEditor.js';
 import FormattedTime from './components/FormattedTime.js';
@@ -243,151 +245,57 @@ class App extends Component {
 
   renderPractice() {
     return (
-      <div className="gameBox">
-        <div>
-          <div>
-            <div className="gameHeader">
-              🎧 Level {this.state.filters.length + 1} (practice)
-            </div>
-
-            <div className="gameOptions">
-              <select
-                style={{ marginRight: '4px' }}
-                defaultValue={String(this.state.filters.length)}
-                onChange={(event) => this.handleStartGame(parseInt(event.target.value), false)}
-              >
-                {_.times(App.MAX_LEVEL, (index) => (
-                  <option key={index} value={index}>Level {index + 1}</option>
-                ))}
-              </select>
-              <span className="button"
-                onClick={() => {
-                  this.handleStartGame(this.state.filters.length, false)
-                }}
-              >
-                New practice level
-              </span>
-              {" "}
-              <span className="button"
-                onClick={this.handleGoHome}
-              >
-                Home
-              </span>
-            </div>
-
-            <div className="clearfix" />
-
-            <div>
-              <div className="section">
-                <Challenge
-                  functionCalled={this.state.functionCalled}
-                  valuePassed={this.state.valuePassed}
-                  functionToBeCalled={this.state.functionToBeCalled}
-                  valueToBePassed={this.state.valueToBePassed}
-                />
-              </div>
-            </div>
-
-            <div className="card section">
-              <div>
-                <span className="emoji">
-                  {this.emojiState()}
-                </span>
-                <input
-                  className="userPayloadInput"
-                  type="text"
-                  value={this.state.payload}
-                  onChange={this.handlePayloadChange}
-                  placeholder='(payload)'
-                  autoFocus={true}
-                />
-              </div>
-
-              <CodeEditor
-                sourcePrefix={this.source().prefix}
-                sourcePostfix={this.source().postfix}
-                sourcePayload={this.source().payload}
-                source={this.src()}
-                currentErrorDescription={this.state.currentErrorDescription}
-                currentErrorLine={this.state.currentErrorLine}
-              />
-            </div>
-          </div>
-          <Footer />
-        </div>
-      </div>
+      <Practice
+        currentLevel={this.state.filters.length + 1}
+        maxLevel={App.MAX_LEVEL}
+        onGoHome={this.handleGoHome}
+        onNewPracticeLevel={() => {
+          this.handleStartGame(this.state.filters, false)
+        }}
+        onStartGame={(value) => {
+          this.handleStartGame(parseInt(value), false)
+        }}
+        functionCalled={this.state.functionCalled}
+        functionToBeCalled={this.state.functionToBeCalled}
+        valuePassed={this.state.valuePassed}
+        valueToBePassed={this.state.valueToBePassed}
+        payload={this.state.payload}
+        onPayloadChange={this.handlePayloadChange}
+        sourcePrefix={this.source().prefix}
+        sourcePostfix={this.source().postfix}
+        sourcePayload={this.source().payload}
+        source={this.src()}
+        currentErrorDescription={this.state.currentErrorDescription}
+        currentErrorLine={this.state.currentErrorLine}
+      />
     );
   }
 
   renderMatch() {
     return (
-      <div className="gameBox">
-        <div>
-          <div>
-            <div className="gameHeader">
-              🎮 Level {this.state.filters.length + 1} of {App.MAX_LEVEL} (game)
-            </div>
-
-            <div className="gameOptions">
-              <span className="button"
-                onClick={() => {
-                  this.handleEndGame();
-                  this.setState({
-                    gameState: 'match-over'
-                  });
-                }}
-              >
-                Stop game
-              </span>
-            </div>
-
-            <div className="clearfix" />
-
-            <div>
-              <div className="section">
-                <Challenge
-                  functionCalled={this.state.functionCalled}
-                  valuePassed={this.state.valuePassed}
-                  functionToBeCalled={this.state.functionToBeCalled}
-                  valueToBePassed={this.state.valueToBePassed}
-                />
-              </div>
-            </div>
-
-            <div className="card section">
-              <div>
-                <span className="emoji">
-                  {this.emojiState()}
-                </span>
-                <input
-                  className="userPayloadInput"
-                  type="text"
-                  value={this.state.payload}
-                  onChange={this.handlePayloadChange}
-                  placeholder='(payload)'
-                  autoFocus={true}
-                />
-              </div>
-
-              <CodeEditor
-                sourcePrefix={this.source().prefix}
-                sourcePostfix={this.source().postfix}
-                sourcePayload={this.source().payload}
-                source={this.src()}
-                currentErrorDescription={this.state.currentErrorDescription}
-                currentErrorLine={this.state.currentErrorLine}
-              />
-
-              <div className="section">
-                <span className="emoji">⏲</span>
-                <strong><FormattedTime seconds={this.state.secondsRemaining} /></strong>
-              </div>
-            </div>
-          </div>
-          <Footer />
-        </div>
-      </div>
-    );
+      <Match
+        currentLevel={this.state.filters.length + 1}
+        maxLevel={App.MAX_LEVEL}
+        onStop={() => {
+          this.handleEndGame();
+          this.setState({
+            gameState: App.GAME_STATE_MATCH_OVER
+          })}}
+        functionCalled={this.state.functionCalled}
+        functionToBeCalled={this.state.functionToBeCalled}
+        valuePassed={this.state.valuePassed}
+        valueToBePassed={this.state.valueToBePassed}
+        payload={this.state.payload}
+        onPayloadChange={this.handlePayloadChange}
+        sourcePrefix={this.source().prefix}
+        sourcePostfix={this.source().postfix}
+        sourcePayload={this.source().payload}
+        source={this.src()}
+        currentErrorDescription={this.state.currentErrorDescription}
+        currentErrorLine={this.state.currentErrorLine}
+        secondsRemaining={this.state.secondsRemaining}
+      />
+    )
   }
 
   renderMatchOver() {
