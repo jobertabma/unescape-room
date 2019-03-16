@@ -11,7 +11,7 @@ class CaseSensitiveAlpha {
     this.value = value;
   }
 
-  static generate(level) {
+  static generate() {
     const characters = _.flatten([
       AsciiHelper.lowerCaseAlphabet(),
       AsciiHelper.upperCaseAlphabet(),

@@ -12,44 +12,17 @@ import TemplateJsonContentValue from '../templates/html/json_value.html.js';
 import TemplateJsonContentKey from '../templates/html/json_key.html.js';
 
 class HtmlTemplate {
-  static generate(level) {
-    let templates;
-
-    switch(level) {
-    case 'trivial':
-      templates = [
-        TemplateBodyTag,
-        TemplateScriptContents,
-        TemplateStyleContents,
-        TemplateInputTagSingle,
-        TemplateLinkTag,
-        TemplateImgTag,
-        TemplateJsonContentValue
-      ];
-      break;
-    case 'easy':
-      templates = [
-        TemplateBodyTagSingle,
-        TemplateInputTagSingle,
-        TemplateImgTagSingle,
-      ];
-      break;
-    case 'medium':
-      templates = [
-        TemplateBodyTag,
-        TemplateBodyTagSingle,
-        TemplateInputTagSingle,
-        TemplateImgTagSingle,
-        TemplateJsonContentKey,
-        TemplateJsonContentValue,
-      ];
-      break;
-    case 'hard':
-      templates = [
-        TemplateBodyTag,
-      ];
-      break;
-    }
+  static generate(filters) {
+    // should depend on numbers of filters
+    let templates = [
+      TemplateBodyTag,
+      TemplateScriptContents,
+      TemplateStyleContents,
+      TemplateInputTagSingle,
+      TemplateLinkTag,
+      TemplateImgTag,
+      TemplateJsonContentValue
+    ];
 
     var randomIndex = _.random(0, templates.length - 1);
 

@@ -11,121 +11,154 @@ import FunctionGenerator from './generators/Function.js';
 import ValueGenerator from './generators/Value.js';
 import FiltersGenerator from './generators/Filters.js';
 
-import AsciiHelper from './helpers/Ascii.js';
+import Menu from './pages/Menu.js';
+import HowTo from './pages/HowTo.js';
+import LevelCompleted from './pages/LevelCompleted.js';
+import GameOver from './pages/GameOver.js';
+
+import CodeEditor from './components/CodeEditor.js';
+import FormattedTime from './components/FormattedTime.js';
+import Challenge from './components/Challenge.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      settingUp: true,
-      helpExpanded: false
+      gameState: 'menu'
     };
 
     this.handlePayloadChange = this.handlePayloadChange.bind(this);
-    this.handleLevelChange = this.handleLevelChange.bind(this);
     this.handleStartGame = this.handleStartGame.bind(this);
-    this.handleToggleHelpSection = this.handleToggleHelpSection.bind(this);
   }
 
-  componentDidMount() {
-    this.handleStartGame(localStorage.getItem('level') || 'trivial');
+  getCurrentHighestScore() {
+    let currentHighestScore = localStorage.getItem('highestScore');
+
+    // do some sanitization and casting
   }
 
-  uniqueGameIdentifier() {
-    let possibleIdentifier = [];
+  setNewHighestScore(score) {
+    if (score > this.getCurrentHighestScore()) {
+      localStorage.setItem('highestScore', score);
+    }
+  }
 
-    let set = AsciiHelper.lowerCaseAlphabet();
-
-    while(possibleIdentifier.length < 16) {
-      possibleIdentifier.push(set[_.random(0, set.length - 1)]);
+  handleEndGame() {
+    if(this.state.timer) {
+      clearInterval(this.state.timer);
+      this.setState({
+        timer: null
+      });
     }
 
-    return possibleIdentifier.join('');
+    if (this.state.eventListener) {
+      window.removeEventListener('message', this.state.eventListener);
+      this.setState({
+        eventListener: null
+      });
+    }
   }
 
-  handleStartGame(level) {
-    // remove event listener
+  handleStartGame(filters, match = true) {
+    this.handleEndGame();
 
-    // if (this.state.listener) {
-    //   window.removeEventListener('message', this.state.listener);
-    // }
+    const functionToBeCalled = FunctionGenerator.generate();
+    const valueToBePassed = ValueGenerator.generate(filters);
+    const htmlTemplate = HtmlTemplateGenerator.generate(filters);
 
-    const functionToBeCalled = FunctionGenerator.generate(level);
-    const valueToBePassed = ValueGenerator.generate(level);
-    const htmlTemplate = HtmlTemplateGenerator.generate(level);
-    const identifier = this.uniqueGameIdentifier();
+    if (match) {
+      this.setState({
+        gameState: 'match',
+        secondsRemaining: 180,
+        totalPoints: 0,
+        totalTimeSpent: 0,
+        timer: (function(_this) {
+            return setInterval(() => {
+              let newSecondsRemaining = _this.state.secondsRemaining - 1;
+
+              if (newSecondsRemaining < 1) {
+                _this.handleEndGame();
+
+                _this.setState({
+                  gameState: 'match-over',
+                  secondsRemaining: 0
+                });
+              } else {
+                _this.setState({
+                  secondsRemaining: newSecondsRemaining
+                });
+              }
+            }, 1000);
+          })(this)
+      });
+    } else {
+      this.setState({
+        gameState: 'practice'
+      });
+    }
 
     this.setState({
-      level: level,
-      identifier: identifier,
-      settingUp: false,
       functionCalled: false,
       valuePassed: false,
       template: htmlTemplate,
       payload: '',
       functionToBeCalled: functionToBeCalled,
       valueToBePassed: valueToBePassed,
+      currentErrorDescription: null,
+      currentErrorLine: null,
       listenerTemplate: ListenerTemplateGenerator.generate(functionToBeCalled),
-      filters: FiltersGenerator.generate(
-        level,
-        functionToBeCalled,
-        valueToBePassed,
-        htmlTemplate
-      ),
+      filters: FiltersGenerator.generate(htmlTemplate, filters),
+      eventListener: (function(_this) {
+        window.addEventListener('message', function(event) {
+          if (typeof event.data !== 'object') {
+            return false;
+          }
+
+          switch(event.data.function) {
+            case _this.state.functionToBeCalled:
+              _this.setState({
+                functionCalled: true
+              });
+
+              if (event.data.value === _this.state.valueToBePassed) {
+                _this.handleEndGame();
+
+                _this.setState({
+                  valuePassed: true,
+                  currentErrorDescription: null,
+                  currentErrorLine: null,
+                });
+
+                if (_this.state.gameState !== 'practice') {
+                  _this.setState({
+                    totalPoints: _this.state.totalPoints + ((_this.state.filters.length + 1) * _this.state.secondsRemaining),
+                    gameState: 'match-level-completed'
+                  });
+                }
+              } else {
+                _this.setState({
+                  valuePassed: false
+                });
+              }
+            break;
+            case 'errorHandler':
+              _this.setState({
+                currentErrorDescription: event.data.error,
+                currentErrorLine: event.data.line
+              });
+            break;
+          }
+        });
+      })(this)
     });
-
-    (function(_this) {
-      window.addEventListener('message', function(event) {
-        if (typeof event.data !== 'object') {
-          return false;
-        }
-
-        switch(event.data.function) {
-          case _this.state.functionToBeCalled:
-            _this.updateGameStore(_this.state.identifier, {
-              functionCalled: true
-            });
-
-            const valuePassed = event.data.value === _this.state.valueToBePassed;
-
-            _this.setState({
-              functionCalled: true,
-              valuePassed: valuePassed
-            });
-
-            valuePassed && _this.updateGameStore(_this.state.identifier, {
-              valuePassed: true
-            });
-          break;
-        }
-      });
-    })(this);
-  }
-
-  updateGameStore(identifier, options) {
-    let currentGames = JSON.parse(localStorage.getItem('games') || '{}');
-    let currentGame = currentGames[identifier] || {};
-
-    currentGames[identifier] = { ...currentGame, ...options };
-
-    localStorage.setItem('games', JSON.stringify(currentGames));
-  }
-
-  handleLevelChange(event) {
-    localStorage.setItem('level', event.target.value);
-
-    this.handleStartGame(event.target.value);
   }
 
   handlePayloadChange(event) {
-    this.updateGameStore(this.state.identifier, {
-      level: this.state.level,
-      payload: event.target.value
-    });
-
     this.setState({
-      payload: event.target.value
+      payload: event.target.value,
+      currentErrorLine: null,
+      currentErrorDescription: null
     });
   }
 
@@ -162,14 +195,6 @@ class App extends Component {
     }
   }
 
-  handleToggleHelpSection(event) {
-    event.preventDefault();
-
-    this.setState({
-      helpExpanded: !this.state.helpExpanded
-    });
-  }
-
   src() {
     return "data:text/html;charset=utf-8," + escape(this.html());
   }
@@ -188,94 +213,55 @@ class App extends Component {
     }
   }
 
-  render() {
-    return !this.state.settingUp && (
+  renderMenu() {
+    return (
+      <Menu
+        onPractice={() => this.handleStartGame(0, false)}
+        onMatch={() => this.handleStartGame(0)}
+        highestScore={localStorage.getItem('highestScore')}
+        highestLevel={localStorage.getItem('highestLevel')}
+        onHowTo={this.handleGoHowTo}
+      />
+    );
+  }
+
+  renderPractice() {
+    return (
       <div className="gameBox">
         <div>
           <div>
             <div className="gameHeader">
-              The <code>unescape()</code> room
+              🎧 Level {this.state.filters.length + 1} (practice)
             </div>
 
             <div className="gameOptions">
-              <select onChange={this.handleLevelChange} defaultValue={this.state.level}>
-                <option value="trivial">
-                  Trivial
-                </option>
-                <option value="easy">
-                  Easy
-                </option>
-                <option value="medium">
-                  Medium
-                </option>
-                <option value="hard">
-                  Hard
-                </option>
-              </select>
-
-              <button
-                onClick={() => this.handleStartGame(this.state.level)}
+              <span className="button"
+                onClick={() => {
+                  this.handleStartGame(this.state.filters.length, false)
+                }}
               >
-                New challenge
-              </button>
+                New practice level
+              </span>
+              {" "}
+              <span className="button"
+                onClick={this.handleGoHome}
+              >
+                Home
+              </span>
             </div>
 
             <div className="clearfix" />
 
-
             <div>
               <div className="section">
-                This game will help you improve your <strong>Cross-Site Scripting</strong>
-                {" "}(<strong>XSS</strong>) skills through challenges. Each challenge is made up of
-                a template, function, value, and a number of filters. Filters are mitigations based on
-                real-world examples and are generated dynamically. It is up to you to find a payload
-                that bypasses all filters so it executes the function with the expected argument
-                {" "}(<span className="button">example</span>). In case you are not familiar with
-                {" "}<strong>XSS</strong> vulnerabilities yet,
-                {" "}<a target="_blank" href="https://www.hacker101.com/sessions/xss">
-                  check out this video
-                </a> to get you up to speed. Good luck!
-              </div>
-
-              <div className="section">
-                <strong>Current challenge</strong>
-              </div>
-
-              <div className="section">
-                Find a way around the filters and exploit the vulnerability by calling the
-                {" "}
-                <code className={classNames('label', {
-                  isCompleted: this.state.functionCalled,
-                  isPending: !this.state.functionCalled,
-                })}>{this.state.functionToBeCalled}</code> function with
-                {" "}
-                argument
-                {" "}
-                <code className={classNames('label', {
-                  isCompleted: this.state.valuePassed,
-                  isPending: !this.state.valuePassed,
-                })}>{this.state.valueToBePassed}</code>
-                {" "}
-                (<code>{typeof this.state.valueToBePassed}</code>). You are up
-                {" "}
-                against <strong>{this.state.filters.length}</strong> filter
-                {this.state.filters.length !== 1 && "s"}.
-                {" "}
-                Refreshing the page will restart the game.
+                <Challenge
+                  functionCalled={this.state.functionCalled}
+                  valuePassed={this.state.valuePassed}
+                  functionToBeCalled={this.state.functionToBeCalled}
+                  valueToBePassed={this.state.valueToBePassed}
+                />
               </div>
             </div>
-
-            {this.state.helpExpanded && <div>
-              <div className="section">
-                Hello world. Section 1
-              </div>
-
-              <div className="section">
-                <span className="button" onClick={this.handleToggleHelpSection}>
-                  Got it
-                </span>
-              </div>
-            </div>}
 
             <div className="card section">
               <div>
@@ -292,22 +278,149 @@ class App extends Component {
                 />
               </div>
 
-              <div className="section">
-                <pre className="source language-html">
-                  <code>
-                    {this.source().prefix}
-                    <span className="userPayload label">{this.source().payload || '(payload)'}</span>
-                    {this.source().postfix}
-                  </code>
-                </pre>
-              </div>
-
-              <iframe style={{ display: 'none' }} src={this.src()} />
+              <CodeEditor
+                sourcePrefix={this.source().prefix}
+                sourcePostfix={this.source().postfix}
+                sourcePayload={this.source().payload}
+                source={this.src()}
+                currentErrorDescription={this.state.currentErrorDescription}
+                currentErrorLine={this.state.currentErrorLine}
+              />
             </div>
           </div>
         </div>
       </div>
     );
+  }
+
+  renderMatch() {
+    return (
+      <div className="gameBox">
+        <div>
+          <div>
+            <div className="gameHeader">
+              🎮 Level {this.state.filters.length + 1} (game)
+            </div>
+
+            <div className="gameOptions">
+              <span className="button"
+                onClick={() => {
+                  this.handleEndGame();
+                  this.setState({
+                    gameState: 'match-over'
+                  });
+                }}
+              >
+                Stop game
+              </span>
+            </div>
+
+            <div className="clearfix" />
+
+            <div>
+              <div className="section">
+                <Challenge
+                  functionCalled={this.state.functionCalled}
+                  valuePassed={this.state.valuePassed}
+                  functionToBeCalled={this.state.functionToBeCalled}
+                  valueToBePassed={this.state.valueToBePassed}
+                />
+              </div>
+            </div>
+
+            <div className="card section">
+              <div>
+                <span className="emoji">
+                  {this.emojiState()}
+                </span>
+                <input
+                  className="userPayloadInput"
+                  type="text"
+                  value={this.state.payload}
+                  onChange={this.handlePayloadChange}
+                  placeholder='(payload)'
+                  autoFocus={true}
+                />
+              </div>
+
+              <CodeEditor
+                sourcePrefix={this.source().prefix}
+                sourcePostfix={this.source().postfix}
+                sourcePayload={this.source().payload}
+                source={this.src()}
+                currentErrorDescription={this.state.currentErrorDescription}
+                currentErrorLine={this.state.currentErrorLine}
+              />
+
+              <div className="section">
+                <span className="emoji">⏲</span>
+                <strong><FormattedTime seconds={this.state.secondsRemaining} /></strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderMatchOver() {
+    return (
+      <GameOver
+        totalPoints={this.state.totalPoints}
+        totalTimeSpent={this.state.totalTimeSpent}
+        onPractice={() => this.handleStartGame(0, false)}
+        onMatch={() => this.handleStartGame(0)}
+        onGoHome={this.handleGoHome}
+        filters={this.state.filters}
+      />
+    );
+  }
+
+  renderHowTo() {
+    return (
+      <HowTo
+        onGoHome={this.handleGoHome}
+      />
+    );
+  }
+
+  handleGoHome = () => {
+    this.handleEndGame();
+
+    this.setState({ gameState: 'menu' })
+  }
+
+  handleGoHowTo = () => {
+    this.setState({ gameState: 'howto' })
+  }
+
+  renderMatchLevelCompleted() {
+    return (
+      <LevelCompleted
+        totalTimeRemaining={180 - this.state.secondsRemaining}
+        totalPoints={this.state.totalPoints}
+        onNextlevel={() => this.handleStartGame(this.state.filters.length + 1)}
+      />
+    );
+  }
+
+  render() {
+    switch (this.state.gameState) {
+      case 'menu':
+        return this.renderMenu();
+      case 'howto':
+        return this.renderHowTo();
+      case 'practice':
+        return this.renderPractice();
+      case 'match':
+        return this.renderMatch();
+      case 'match-over':
+        return this.renderMatchOver();
+      case 'match-level-completed':
+        return this.renderMatchLevelCompleted();
+      default:
+        return <span />;
+    }
   }
 }
 
