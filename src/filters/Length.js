@@ -2,10 +2,6 @@ import _ from 'underscore';
 
 class LengthFilter {
   process(payload) {
-    if(this.length === null) {
-      return payload;
-    }
-
     return payload.substring(0, this.length - 1);
   }
 
