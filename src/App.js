@@ -20,6 +20,8 @@ import CodeEditor from './components/CodeEditor.js';
 import FormattedTime from './components/FormattedTime.js';
 import Challenge from './components/Challenge.js';
 
+import Score from './helpers/Score.js';
+
 class App extends Component {
   static MAX_LEVEL = 10;
   static SECONDS_PER_LEVEL = 180;
@@ -33,18 +35,6 @@ class App extends Component {
 
     this.handlePayloadChange = this.handlePayloadChange.bind(this);
     this.handleStartGame = this.handleStartGame.bind(this);
-  }
-
-  getCurrentHighestScore() {
-    let currentHighestScore = localStorage.getItem('highestScore');
-
-    // do some sanitization and casting
-  }
-
-  setNewHighestScore(score) {
-    if (score > this.getCurrentHighestScore()) {
-      localStorage.setItem('highestScore', score);
-    }
   }
 
   handleEndGame() {
@@ -134,10 +124,15 @@ class App extends Component {
                 });
 
                 if (_this.state.gameState !== 'practice') {
+                  let totalPoints = _this.state.totalPoints + ((_this.state.filters.length + 1) * _this.state.secondsRemaining);
+
                   _this.setState({
-                    totalPoints: _this.state.totalPoints + ((_this.state.filters.length + 1) * _this.state.secondsRemaining),
+                    totalPoints: totalPoints,
                     gameState: 'match-level-completed'
                   });
+
+                  Score.setNewHighestScore(totalPoints);
+                  Score.setNewHighestLevel(_this.state.filters.length + 1);
                 }
               } else {
                 _this.setState({
@@ -221,8 +216,9 @@ class App extends Component {
       <Menu
         onPractice={() => this.handleStartGame(0, false)}
         onMatch={() => this.handleStartGame(0)}
-        highestScore={localStorage.getItem('highestScore')}
-        highestLevel={localStorage.getItem('highestLevel')}
+        highestScore={Score.getCurrentHighestScore()}
+        highestLevel={Score.getCurrentHighestLevel()}
+        maxLevel={App.MAX_LEVEL}
         onHowTo={this.handleGoHowTo}
       />
     );

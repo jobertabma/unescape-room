@@ -50,7 +50,7 @@ class Menu extends Component {
                     </div>
 
                     <div className="section">
-                      <h1>{this.props.highestLevel}</h1>
+                      <h1>{this.props.highestLevel} of {this.props.maxLevel}</h1>
                     </div>
                   </div>}
               </div>
