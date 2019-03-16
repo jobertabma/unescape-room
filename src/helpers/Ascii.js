@@ -2,7 +2,7 @@ import _ from 'underscore';
 
 class Ascii {
   static specialCharacters() {
-    return ['(', ')', '{', '}', ';', '.', '[', ']', '<', '>', '+', '-', '`'];
+    return ['(', ')', '{', '}', ';', '.', '[', ']', '<', '>', '+', '-', '`', '%', '\\'];
   }
 
   static numbers() {
