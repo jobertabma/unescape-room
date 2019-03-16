@@ -4,12 +4,14 @@ import React, { Component } from 'react';
 import Sandbox from '../components/Sandbox.js';
 import Challenge from '../components/Challenge.js';
 import Footer from '../components/Footer.js';
+import Header from '../components/Header.js';
 
 class Practice extends Component {
   render() {
     return (
       <div className="gameBox">
         <div>
+          <Header />
           <div>
             <div className="gameHeader">
               🎧 Level {this.props.currentLevel} (practice)

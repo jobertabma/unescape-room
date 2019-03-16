@@ -4,12 +4,14 @@ import Sandbox from '../components/Sandbox.js';
 import FormattedTime from '../components/FormattedTime.js';
 import Challenge from '../components/Challenge.js';
 import Footer from '../components/Footer.js';
+import Header from '../components/Header.js';
 
 class Match extends Component {
   render() {
     return (
       <div className="gameBox">
         <div>
+          <Header />
           <div>
             <div className="gameHeader">
               🎮 Level {this.props.currentLevel} of {this.props.maxLevel} (game)
