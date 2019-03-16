@@ -54,7 +54,7 @@ class App extends Component {
     }
   }
 
-  handleStartGame(filters, match = true) {
+  handleCreateLevel(filters, match = true) {
     this.handleEndGame();
 
     const functionToBeCalled = FunctionGenerator.generate();
@@ -65,8 +65,6 @@ class App extends Component {
       this.setState({
         gameState: 'match',
         secondsRemaining: App.SECONDS_PER_LEVEL,
-        totalPoints: 0,
-        totalTimeSpent: 0,
         timer: (function(_this) {
             return setInterval(() => {
               let newSecondsRemaining = _this.state.secondsRemaining - 1;
@@ -126,9 +124,11 @@ class App extends Component {
 
                 if (_this.state.gameState !== 'practice') {
                   let totalPoints = _this.state.totalPoints + _this.state.secondsRemaining;
+                  let totalTimeSpent = _this.state.totalTimeSpent + (App.SECONDS_PER_LEVEL - _this.state.secondsRemaining);
 
                   _this.setState({
                     totalPoints: totalPoints,
+                    totalTimeSpent: totalTimeSpent,
                     gameState: 'match-level-completed'
                   });
 
@@ -151,6 +151,15 @@ class App extends Component {
         });
       })(this)
     });
+  }
+
+  handleStartGame(filters, match = true) {
+    this.setState({
+      totalPoints: 0,
+      totalTimeSpent: 0
+    });
+
+    this.handleCreateLevel(filters, match);
   }
 
   handlePayloadChange(event) {
@@ -411,7 +420,7 @@ class App extends Component {
       <LevelCompleted
         totalTimeRemaining={App.SECONDS_PER_LEVEL - this.state.secondsRemaining}
         totalPoints={this.state.totalPoints}
-        onNextlevel={() => this.handleStartGame(this.state.filters.length + 1)}
+        onNextlevel={() => this.handleCreateLevel(this.state.filters.length + 1)}
         hasNextLevel={this.state.filters.length + 1 < App.MAX_LEVEL}
         onFinish={() => this.setState({ gameState: 'match-over' })}
       />
