@@ -8,10 +8,9 @@ class Atom {
     catch(_e) {
       return '';
     }
-    // return atob(payload);
   }
 
-  static generate(level) {
+  static generate(_filters) {
     return new this();
   }
 }

@@ -9,7 +9,7 @@ class Number {
     this.value = value;
   }
 
-  static generate(level) {
+  static generate(_filters) {
     return new this(_.random(0, 9));
   }
 }

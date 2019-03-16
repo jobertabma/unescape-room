@@ -13,15 +13,8 @@ class LengthFilter {
     this.length = length;
   }
 
-  static generate(level) {
-    switch(level) {
-      case 'medium':
-        return new this(_.random(100, 250));
-      case 'hard':
-        return new this(_.random(50, 250));
-      default:
-        return new this(null);
-    }
+  static generate(_filters) {
+    return new this(_.random(100, 250));
   }
 }
 

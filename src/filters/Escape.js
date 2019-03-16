@@ -3,7 +3,7 @@ class EscapeFilter {
     return payload.replace(/(['"\\])/g, '\\$1');
   }
 
-  static generate(_level) {
+  static generate(_filters) {
     // should pick at least one char to escape
     return new this();
   }

@@ -11,7 +11,7 @@ class SpecialCharacter {
     this.value = value;
   }
 
-  static generate(level) {
+  static generate(_filters) {
     return new this(
       AsciiHelper.specialCharacters()[_.random(0, AsciiHelper.specialCharacters().length - 1)]
     );

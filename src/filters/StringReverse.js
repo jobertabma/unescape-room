@@ -3,7 +3,7 @@ class StringReverse {
     return payload.split("").reverse().join("");
   }
 
-  static generate(level) {
+  static generate(_filters) {
     return new this();
   }
 }

@@ -3,7 +3,7 @@ class EscapeQuotesFilter {
     return payload.replace(/(['"\\])/g, '\\$1');
   }
 
-  static generate(_level) {
+  static generate(_filters) {
     return new this();
   }
 }
