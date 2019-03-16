@@ -1,6 +1,6 @@
 import _ from 'underscore';
 
-class Atom {
+class Atob {
   process(payload) {
     try {
       return atob(payload);
@@ -15,4 +15,4 @@ class Atom {
   }
 }
 
-export default Atom;
+export default Atob;
