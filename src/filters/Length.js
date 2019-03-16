@@ -1,6 +1,6 @@
 import _ from 'underscore';
 
-class LengthFilter {
+class Length {
   process(payload) {
     return payload.substring(0, this.length - 1);
   }
@@ -14,4 +14,4 @@ class LengthFilter {
   }
 }
 
-export default LengthFilter;
+export default Length;
