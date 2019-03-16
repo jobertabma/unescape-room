@@ -19,7 +19,9 @@ class Challenge extends Component {
           isPending: !this.props.valuePassed,
         })}>{this.props.valueToBePassed}</code>
         {" "}
-        (<code>{typeof this.props.valueToBePassed}</code>).
+        (<code>{typeof this.props.valueToBePassed}</code>) by exploiting the
+        {" "}<strong>Cross-Site Scripting</strong>
+        {" "}(<strong>XSS</strong>) vulnerability.
       </div>
     );
   }
