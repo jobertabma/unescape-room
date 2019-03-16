@@ -12,7 +12,7 @@ class FormattedTime extends Component {
   render() {
     return (
       <span>
-        {this.minutes()}:{this.seconds()}m
+        {this.minutes()}:{this.seconds()}s
       </span>
     );
   }
