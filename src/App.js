@@ -310,7 +310,7 @@ class App extends Component {
         <div>
           <div>
             <div className="gameHeader">
-              🎮 Level {this.state.filters.length + 1} (game)
+              🎮 Level {this.state.filters.length + 1} of {App.MAX_LEVEL} (game)
             </div>
 
             <div className="gameOptions">
