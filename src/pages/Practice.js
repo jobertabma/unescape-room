@@ -52,16 +52,17 @@ class Practice extends Component {
                   <option key={index} value={index}>Level {index + 1}</option>
                 ))}
               </select>
+              {" "}|{" "}
               <span className="button"
                 onClick={this.handleNewLevel}
               >
-                New practice level
+                New
               </span>
-              {" "}
+              {" "}|{" "}
               <span className="button"
                 onClick={this.props.onGoHome}
               >
-                Home
+                Stop
               </span>
             </div>
 

@@ -19,7 +19,7 @@ class Match extends Component {
 
             <div className="gameOptions">
               <span className="button" onClick={this.props.onStop}>
-                Stop game
+                Stop
               </span>
             </div>
 
