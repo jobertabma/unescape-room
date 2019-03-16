@@ -408,6 +408,8 @@ class App extends Component {
         totalTimeRemaining={App.SECONDS_PER_LEVEL - this.state.secondsRemaining}
         totalPoints={this.state.totalPoints}
         onNextlevel={() => this.handleStartGame(this.state.filters.length + 1)}
+        hasNextLevel={this.state.filters.length + 1 < App.MAX_LEVEL}
+        onFinish={() => this.setState({ gameState: 'match-over' })}
       />
     );
   }

@@ -18,7 +18,9 @@ class LevelCompleted extends Component {
 
             <div>
               <div className="section">
-                You have completed an <code>unescape()</code> room level. Get ready for the next one!
+                You have completed an <code>unescape()</code> room level.
+                {" "}
+                {this.props.hasNextLevel && <span>Get ready for the next one!</span>}
               </div>
             </div>
 
@@ -39,7 +41,11 @@ class LevelCompleted extends Component {
                 <h1><FormattedTime seconds={this.props.totalTimeRemaining} /></h1>
               </div>
 
-              <button onClick={this.props.onNextlevel}>Advance to next level</button>
+              {this.props.hasNextLevel &&
+                <button onClick={this.props.onNextlevel}>Advance to next level</button>}
+
+              {!this.props.hasNextLevel &&
+                <button onClick={this.props.onFinish}>Game summary</button>}
             </div>
           </div>
         </div>
