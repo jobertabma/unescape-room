@@ -7,6 +7,31 @@ import Footer from '../components/Footer.js';
 import Header from '../components/Header.js';
 
 class Practice extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentLevel: props.currentLevel
+    };
+
+    this.handleChangeLevel = this.handleChangeLevel.bind(this);
+    this.handleNewLevel = this.handleNewLevel.bind(this);
+  }
+
+  handleChangeLevel(level) {
+    level = parseInt(level) + 1;
+
+    this.setState({
+      currentLevel: level
+    });
+
+    this.props.onStartGame(level - 1);
+  }
+
+  handleNewLevel() {
+    this.props.onStartGame(this.state.currentLevel - 1);
+  }
+
   render() {
     return (
       <div className="gameBox">
@@ -14,21 +39,21 @@ class Practice extends Component {
           <Header />
           <div>
             <div className="gameHeader">
-              🎧 Level {this.props.currentLevel} (practice)
+              🎧 Level {this.state.currentLevel} (practice)
             </div>
 
             <div className="gameOptions">
               <select
                 style={{ marginRight: '4px' }}
-                defaultValue={String(this.props.currentLevel - 1)}
-                onChange={(event) => this.props.onStartGame(event.target.value)}
+                defaultValue={String(this.state.currentLevel - 1)}
+                onChange={(event) => this.handleChangeLevel(event.target.value)}
               >
                 {_.times(this.props.maxLevel, (index) => (
                   <option key={index} value={index}>Level {index + 1}</option>
                 ))}
               </select>
               <span className="button"
-                onClick={this.props.onNewPracticeLevel}
+                onClick={this.handleNewLevel}
               >
                 New practice level
               </span>

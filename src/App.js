@@ -245,9 +245,6 @@ class App extends Component {
         currentLevel={this.state.filters.length + 1}
         maxLevel={App.MAX_LEVEL}
         onGoHome={this.handleGoHome}
-        onNewPracticeLevel={() => {
-          this.handleStartGame(this.state.filters, false)
-        }}
         onStartGame={(value) => {
           this.handleStartGame(parseInt(value), false)
         }}
