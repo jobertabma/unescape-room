@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
 import _ from 'underscore';
 
 import './App.css';
@@ -17,11 +16,6 @@ import LevelCompleted from './pages/LevelCompleted.js';
 import GameOver from './pages/GameOver.js';
 import Match from './pages/Match.js';
 import Practice from './pages/Practice.js';
-
-import CodeEditor from './components/CodeEditor.js';
-import FormattedTime from './components/FormattedTime.js';
-import Challenge from './components/Challenge.js';
-import Footer from './components/Footer.js';
 
 import Score from './helpers/Score.js';
 
@@ -155,6 +149,8 @@ class App extends Component {
                 currentErrorDescription: event.data.error,
                 currentErrorLine: event.data.line
               });
+            break;
+            default:
             break;
           }
         });

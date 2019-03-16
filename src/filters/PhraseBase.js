@@ -1,5 +1,3 @@
-import _ from 'underscore';
-
 import Lottery from '../helpers/Lottery.js';
 
 class PhraseBase {

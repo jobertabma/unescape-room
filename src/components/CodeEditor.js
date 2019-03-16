@@ -23,7 +23,7 @@ class CodeEditor extends Component {
             </div>}
         </div>
 
-        <iframe style={{ display: 'none' }} src={this.props.source} />
+        <iframe title="sandbox" style={{ display: 'none' }} src={this.props.source} />
       </div>
     );
   }

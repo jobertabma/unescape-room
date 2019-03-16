@@ -1,5 +1,3 @@
-import _ from 'underscore';
-
 class Score {
   static getCurrentHighestScore() {
     let currentHighestScore = localStorage.getItem('highestScore');

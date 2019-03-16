@@ -1,5 +1,3 @@
-import _ from 'underscore';
-
 class Atob {
   process(payload) {
     try {

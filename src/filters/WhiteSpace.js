@@ -1,5 +1,3 @@
-import _ from 'underscore';
-
 class WhiteSpace {
   process(payload) {
     return payload.replace(/\s+/g, '');
