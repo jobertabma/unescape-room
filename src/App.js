@@ -236,6 +236,7 @@ class App extends Component {
             <div className="gameOptions">
               <select
                 style={{ marginRight: '4px' }}
+                defaultValue={String(this.state.filters.length)}
                 onChange={(event) => this.handleStartGame(parseInt(event.target.value), false)}
               >
                 {_.times(App.MAX_LEVEL, (index) => (
@@ -375,7 +376,7 @@ class App extends Component {
       <GameOver
         totalPoints={this.state.totalPoints}
         totalTimeSpent={this.state.totalTimeSpent}
-        onPractice={() => this.handleStartGame(0, false)}
+        onPractice={() => this.handleStartGame(this.state.filters.length, false)}
         onMatch={() => this.handleStartGame(0)}
         onGoHome={this.handleGoHome}
         filters={this.state.filters}
