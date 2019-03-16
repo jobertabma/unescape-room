@@ -49,7 +49,8 @@ class Match extends Component {
               />
 
               <div className="section">
-                <span className="emoji">⏲</span>
+                Time remaining:
+                {" "}
                 <strong><FormattedTime seconds={this.props.secondsRemaining} /></strong>
               </div>
             </div>
