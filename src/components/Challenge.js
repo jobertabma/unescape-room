@@ -20,8 +20,7 @@ class Challenge extends Component {
         })}>{this.props.valueToBePassed}</code>
         {" "}
         (<code>{typeof this.props.valueToBePassed}</code>) by exploiting the
-        {" "}<strong>Cross-Site Scripting</strong>
-        {" "}(<strong>XSS</strong>) vulnerability.
+        {" "}<strong>XSS</strong> vulnerability.
       </div>
     );
   }
