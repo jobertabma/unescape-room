@@ -16,12 +16,15 @@ class HtmlTemplate {
     // should depend on numbers of filters
     let templates = [
       TemplateBodyTag,
+      TemplateBodyTagSingle,
       TemplateScriptContents,
       TemplateStyleContents,
       TemplateInputTagSingle,
       TemplateLinkTag,
       TemplateImgTag,
-      TemplateJsonContentValue
+      TemplateImgTagSingle,
+      TemplateJsonContentValue,
+      TemplateJsonContentKey,
     ];
 
     var randomIndex = _.random(0, templates.length - 1);
