@@ -38,10 +38,10 @@ class Filters {
       new RegExp(/{payload}(?<remainder>.*?$)/m)
     );
 
-    let ignoreCharacters = '';
+    let allowedCharacters = '';
 
     if(templatePayloadRemainder) {
-      ignoreCharacters = templatePayloadRemainder[1];
+      allowedCharacters = templatePayloadRemainder[1];
     }
 
     // after level 1, always strip at least one character from the value or function
@@ -53,8 +53,7 @@ class Filters {
           valueToBeProcessed[_.random(0, valueToBeProcessed.length - 1)]
         );
 
-        // is this logic correct?
-        if(possibleFilter.process(ignoreCharacters) === ignoreCharacters) {
+        if(possibleFilter.isValidCombination(generatedFilters, allowedCharacters)) {
           tempFilter = possibleFilter;
         }
       }
@@ -65,8 +64,11 @@ class Filters {
     while(generatedFilters.length < filters) {
       let newFilter = availableFilters[_.random(0, availableFilters.length - 1)];
 
-      // this should take ignoreCharacters into account
-      generatedFilters.push(newFilter.generate(filters));
+      tempFilter = newFilter.generate(filters);
+
+      if (tempFilter.isValidCombination(generatedFilters, allowedCharacters)) {
+        generatedFilters.push(tempFilter);
+      }
     }
 
     return ShuffleHelper.shuffle(generatedFilters);
