@@ -235,6 +235,14 @@ class App extends Component {
             </div>
 
             <div className="gameOptions">
+              <select
+                style={{ marginRight: '4px' }}
+                onChange={(event) => this.handleStartGame(parseInt(event.target.value), false)}
+              >
+                {_.times(15, (index) => (
+                  <option key={index} value={index}>Level {index + 1}</option>
+                ))}
+              </select>
               <span className="button"
                 onClick={() => {
                   this.handleStartGame(this.state.filters.length, false)
