@@ -6,7 +6,7 @@ class Function {
     'callMe',
     'post',
     'confirm',
-    'delete'
+    'd'
   ];
 
   static generate(_filters) {
