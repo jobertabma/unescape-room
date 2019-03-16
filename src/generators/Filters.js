@@ -1,6 +1,5 @@
 import _ from 'underscore';
 
-import EscapeQuotesFilter from '../filters/EscapeQuotes.js';
 import CaseSensitivePhraseFilter from '../filters/CaseSensitivePhrase.js';
 import StringReverseFilter from '../filters/StringReverse.js';
 import CaseSensitiveAlphaFilter from '../filters/CaseSensitiveAlpha.js';
