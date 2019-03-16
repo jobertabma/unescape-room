@@ -125,7 +125,7 @@ class App extends Component {
                 });
 
                 if (_this.state.gameState !== 'practice') {
-                  let totalPoints = _this.state.totalPoints + ((_this.state.filters.length + 1) * _this.state.secondsRemaining);
+                  let totalPoints = _this.state.totalPoints + _this.state.secondsRemaining;
 
                   _this.setState({
                     totalPoints: totalPoints,
