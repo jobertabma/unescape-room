@@ -21,6 +21,9 @@ import FormattedTime from './components/FormattedTime.js';
 import Challenge from './components/Challenge.js';
 
 class App extends Component {
+  static MAX_LEVEL = 10;
+  static SECONDS_PER_LEVEL = 180;
+
   constructor(props) {
     super(props);
 
@@ -70,7 +73,7 @@ class App extends Component {
     if (match) {
       this.setState({
         gameState: 'match',
-        secondsRemaining: 180,
+        secondsRemaining: App.SECONDS_PER_LEVEL,
         totalPoints: 0,
         totalTimeSpent: 0,
         timer: (function(_this) {
@@ -239,7 +242,7 @@ class App extends Component {
                 style={{ marginRight: '4px' }}
                 onChange={(event) => this.handleStartGame(parseInt(event.target.value), false)}
               >
-                {_.times(15, (index) => (
+                {_.times(App.MAX_LEVEL, (index) => (
                   <option key={index} value={index}>Level {index + 1}</option>
                 ))}
               </select>
@@ -405,7 +408,7 @@ class App extends Component {
   renderMatchLevelCompleted() {
     return (
       <LevelCompleted
-        totalTimeRemaining={180 - this.state.secondsRemaining}
+        totalTimeRemaining={App.SECONDS_PER_LEVEL - this.state.secondsRemaining}
         totalPoints={this.state.totalPoints}
         onNextlevel={() => this.handleStartGame(this.state.filters.length + 1)}
       />
