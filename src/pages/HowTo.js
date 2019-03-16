@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Header from '../components/Header.js';
+import Footer from '../components/Footer.js';
 
 class HowTo extends Component {
   render() {
@@ -28,6 +29,7 @@ class HowTo extends Component {
               <button onClick={this.props.onGoHome}>Go back</button>
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     );

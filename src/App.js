@@ -19,6 +19,7 @@ import GameOver from './pages/GameOver.js';
 import CodeEditor from './components/CodeEditor.js';
 import FormattedTime from './components/FormattedTime.js';
 import Challenge from './components/Challenge.js';
+import Footer from './components/Footer.js';
 
 import Score from './helpers/Score.js';
 
@@ -296,6 +297,7 @@ class App extends Component {
               />
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     );
@@ -366,6 +368,7 @@ class App extends Component {
               </div>
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     );

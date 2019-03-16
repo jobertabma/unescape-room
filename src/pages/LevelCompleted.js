@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import FormattedTime from '../components/FormattedTime.js';
 import Header from '../components/Header.js';
+import Footer from '../components/Footer.js';
 
 class LevelCompleted extends Component {
   render() {
@@ -48,6 +49,7 @@ class LevelCompleted extends Component {
                 <button onClick={this.props.onFinish}>Game summary</button>}
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     );

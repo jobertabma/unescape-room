@@ -10,8 +10,17 @@ body {
   padding: 10px;
 }
 
-header {
+header, footer {
   text-align: center;
+}
+
+footer {
+  font-size: 11px;
+  color: #666;
+}
+
+footer a {
+  text-decoration: none;
 }
 
 header > h1 {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import FormattedTime from '../components/FormattedTime.js';
 import Header from '../components/Header.js';
+import Footer from '../components/Footer.js';
 
 class MatchOver extends Component {
   render() {
@@ -58,6 +59,7 @@ class MatchOver extends Component {
               <button onClick={this.props.onGoHome}>Home</button>
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     );
