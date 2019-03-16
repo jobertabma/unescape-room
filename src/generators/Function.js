@@ -1,6 +1,16 @@
+import _ from 'underscore';
+
 class Function {
+  static SET = [
+    'alert',
+    'callMe',
+    'post',
+    'confirm',
+    'delete'
+  ];
+
   static generate(_filters) {
-    return 'alert';
+    return this.SET[_.random(0, this.SET.length - 1)];
   }
 }
 
