@@ -42,8 +42,8 @@ class Filters {
       ignoreCharacters = templatePayloadRemainder[1];
     }
 
-    // after level 2, always strip at least one character from the value or function
-    if(filters > 3) {
+    // after level 1, always strip at least one character from the value or function
+    if(filters >= 1) {
       while(tempFilter === undefined) {
         let valueToBeProcessed = _.random(0, 1) === 0 ? functionToBeCalled : valueToBePassed;
 
