@@ -7,11 +7,13 @@ class CaseInsensitivePhrase extends PhraseBase {
     return payload.replace(/${this.value}/ig, '');
   }
 
-  isValidCombination(filters) {
+  isValidCombination(filters, allowedCharacters) {
     let isInvalid = _.some(filters, (filter) => (
       filter instanceof CaseInsensitivePhrase &&
         filter.value.toLowerCase() === this.value.toLowerCase()
     ));
+
+    isInvalid = isInvalid || this.process(allowedCharacters) !== allowedCharacters
 
     return !isInvalid;
   }

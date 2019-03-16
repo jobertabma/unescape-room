@@ -5,12 +5,14 @@ class Number {
     return payload.split(String(this.value)).join("");
   }
 
-  isValidCombination(filters) {
+  isValidCombination(filters, allowedCharacters) {
     // make sure we only filter a number once
     let isInvalid = _.some(filters, (filter) => (
       filter instanceof Number &&
         filter.value === this.value
     ));
+
+    isInvalid = isInvalid || this.process(allowedCharacters) !== allowedCharacters
 
     return !isInvalid;
   }

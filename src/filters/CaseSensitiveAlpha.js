@@ -7,11 +7,13 @@ class CaseSensitiveAlpha extends AlphaBase {
     return payload.split(this.value).join("");
   }
 
-  isValidCombination(filters) {
+  isValidCombination(filters, allowedCharacters) {
     let isInvalid = _.some(filters, (filter) => (
       filter instanceof CaseSensitiveAlpha &&
         filter.value === this.value
     ));
+
+    isInvalid = isInvalid || this.process(allowedCharacters) !== allowedCharacters
 
     return !isInvalid;
   }

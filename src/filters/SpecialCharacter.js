@@ -11,11 +11,13 @@ class SpecialCharacter {
     this.value = value;
   }
 
-  isValidCombination(filters) {
+  isValidCombination(filters, allowedCharacters) {
     let isInvalid = _.some(filters, (filter) => (
       filter instanceof SpecialCharacter &&
         filter.value === this.value
     ));
+
+    isInvalid = isInvalid || this.process(allowedCharacters) !== allowedCharacters
 
     return !isInvalid;
   }

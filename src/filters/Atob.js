@@ -10,7 +10,7 @@ class Atob {
     }
   }
 
-  isValidCombination(filters) {
+  isValidCombination(filters, _allowedCharacters) {
     let isInvalid = _.some(filters, (filter) => (
       filter instanceof Atob
     ));

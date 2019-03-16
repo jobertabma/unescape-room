@@ -5,7 +5,7 @@ class Length {
     return payload.substring(0, this.length - 1);
   }
 
-  isValidCombination(filters) {
+  isValidCombination(filters, _allowedCharacters) {
     // make sure we only Length once
     let isInvalid = _.some(filters, (filter) => (
       filter instanceof Length

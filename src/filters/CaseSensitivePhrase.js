@@ -7,11 +7,13 @@ class CaseSensitivePhrase extends PhraseBase {
     return payload.split(this.value).join("");
   }
 
-  isValidCombination(filters) {
+  isValidCombination(filters, allowedCharacters) {
     let isInvalid = _.some(filters, (filter) => (
       filter instanceof CaseSensitivePhrase &&
         filter.value === this.value
     ));
+
+    isInvalid = isInvalid || this.process(allowedCharacters) !== allowedCharacters
 
     return !isInvalid;
   }
