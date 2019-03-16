@@ -46,7 +46,7 @@ class MatchOver extends Component {
               </div>
 
               <div className="section">
-                Total time remaining
+                Total time spent
               </div>
 
               <div className="section">
