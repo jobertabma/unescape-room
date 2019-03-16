@@ -27,11 +27,18 @@ class App extends Component {
   static MAX_LEVEL = 10;
   static SECONDS_PER_LEVEL = 180;
 
+  static GAME_STATE_MENU = 'menu';
+  static GAME_STATE_HOW_TO = 'howto';
+  static GAME_STATE_PRACTICE = 'practice';
+  static GAME_STATE_MATCH = 'match';
+  static GAME_STATE_MATCH_LEVEL_COMPLETE = 'match-level-complete';
+  static GAME_STATE_MATCH_OVER = 'match-over';
+
   constructor(props) {
     super(props);
 
     this.state = {
-      gameState: 'menu'
+      gameState: App.GAME_STATE_MENU
     };
 
     this.handlePayloadChange = this.handlePayloadChange.bind(this);
@@ -63,7 +70,7 @@ class App extends Component {
 
     if (match) {
       this.setState({
-        gameState: 'match',
+        gameState: App.GAME_STATE_MATCH,
         secondsRemaining: App.SECONDS_PER_LEVEL,
         timer: (function(_this) {
             return setInterval(() => {
@@ -73,7 +80,7 @@ class App extends Component {
                 _this.handleEndGame();
 
                 _this.setState({
-                  gameState: 'match-over',
+                  gameState: App.GAME_STATE_MATCH_OVER,
                   secondsRemaining: 0
                 });
               } else {
@@ -86,7 +93,7 @@ class App extends Component {
       });
     } else {
       this.setState({
-        gameState: 'practice'
+        gameState: App.GAME_STATE_PRACTICE
       });
     }
 
@@ -122,14 +129,14 @@ class App extends Component {
                   currentErrorLine: null,
                 });
 
-                if (_this.state.gameState !== 'practice') {
+                if (_this.state.gameState !== App.GAME_STATE_PRACTICE) {
                   let totalPoints = _this.state.totalPoints + _this.state.secondsRemaining;
                   let totalTimeSpent = _this.state.totalTimeSpent + (App.SECONDS_PER_LEVEL - _this.state.secondsRemaining);
 
                   _this.setState({
                     totalPoints: totalPoints,
                     totalTimeSpent: totalTimeSpent,
-                    gameState: 'match-level-completed'
+                    gameState: App.GAME_STATE_MATCH_LEVEL_COMPLETE
                   });
 
                   Score.setNewHighestScore(totalPoints);
@@ -408,11 +415,11 @@ class App extends Component {
   handleGoHome = () => {
     this.handleEndGame();
 
-    this.setState({ gameState: 'menu' })
+    this.setState({ gameState: App.GAME_STATE_MENU })
   }
 
   handleGoHowTo = () => {
-    this.setState({ gameState: 'howto' })
+    this.setState({ gameState: App.GAME_STATE_HOW_TO })
   }
 
   renderMatchLevelCompleted() {
@@ -422,24 +429,24 @@ class App extends Component {
         totalPoints={this.state.totalPoints}
         onNextlevel={() => this.handleCreateLevel(this.state.filters.length + 1)}
         hasNextLevel={this.state.filters.length + 1 < App.MAX_LEVEL}
-        onFinish={() => this.setState({ gameState: 'match-over' })}
+        onFinish={() => this.setState({ gameState: App.GAME_STATE_MATCH_OVER })}
       />
     );
   }
 
   render() {
     switch (this.state.gameState) {
-      case 'menu':
+      case App.GAME_STATE_MENU:
         return this.renderMenu();
-      case 'howto':
+      case App.GAME_STATE_HOW_TO:
         return this.renderHowTo();
-      case 'practice':
+      case App.GAME_STATE_PRACTICE:
         return this.renderPractice();
-      case 'match':
+      case App.GAME_STATE_MATCH:
         return this.renderMatch();
-      case 'match-over':
+      case App.GAME_STATE_MATCH_OVER:
         return this.renderMatchOver();
-      case 'match-level-completed':
+      case App.GAME_STATE_MATCH_LEVEL_COMPLETE:
         return this.renderMatchLevelCompleted();
       default:
         return <span />;
