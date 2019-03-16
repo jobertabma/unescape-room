@@ -101,7 +101,7 @@ class App extends Component {
       currentErrorDescription: null,
       currentErrorLine: null,
       listenerTemplate: ListenerTemplateGenerator.generate(functionToBeCalled),
-      filters: FiltersGenerator.generate(htmlTemplate, filters),
+      filters: FiltersGenerator.generate(htmlTemplate, functionToBeCalled, valueToBePassed, filters),
       eventListener: (function(_this) {
         window.addEventListener('message', function(event) {
           if (typeof event.data !== 'object') {
