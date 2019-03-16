@@ -13,19 +13,43 @@ import TemplateJsonContentKey from '../templates/html/json_key.html.js';
 
 class HtmlTemplate {
   static generate(filters) {
-    // should depend on numbers of filters
-    let templates = [
-      TemplateBodyTag,
-      TemplateBodyTagSingle,
-      TemplateScriptContents,
-      TemplateStyleContents,
-      TemplateInputTagSingle,
-      TemplateLinkTag,
-      TemplateImgTag,
-      TemplateImgTagSingle,
-      TemplateJsonContentValue,
-      TemplateJsonContentKey,
-    ];
+    let templates;
+
+    if (filters >= 0 && filters <= 1) {
+      templates = [
+        TemplateBodyTag,
+        TemplateBodyTagSingle
+      ];
+    } else if (filters >= 2 && filters <= 4) {
+      templates = [
+        TemplateBodyTag,
+        TemplateBodyTagSingle,
+        TemplateImgTag,
+        TemplateImgTagSingle,
+        TemplateLinkTag
+      ];
+    } else if (filters >= 5 && filters <= 7) {
+      templates = [
+        TemplateBodyTag,
+        TemplateBodyTagSingle,
+        TemplateScriptContents,
+        TemplateStyleContents,
+        TemplateInputTagSingle,
+        TemplateLinkTag,
+        TemplateImgTag,
+        TemplateImgTagSingle,
+        TemplateJsonContentValue,
+        TemplateJsonContentKey,
+      ];
+    } else {
+      templates = [
+        TemplateScriptContents,
+        TemplateStyleContents,
+        TemplateImgTagSingle,
+        TemplateJsonContentValue,
+        TemplateJsonContentKey,
+      ];
+    }
 
     var randomIndex = _.random(0, templates.length - 1);
 
