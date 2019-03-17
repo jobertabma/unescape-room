@@ -6,7 +6,6 @@ class Length {
   }
 
   isValidCombination(filters, _allowedCharacters) {
-    // make sure we only Length once
     let isInvalid = _.some(filters, (filter) => (
       filter instanceof Length
     ));
