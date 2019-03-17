@@ -147,6 +147,22 @@ code {
   color: black;
 }
 
+.practice-run {
+  text-align: center;
+  background-color: lightgreen;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.play-a-match {
+  text-align: center;
+  background-color: lightgrey;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
 .source {
   padding: 5px;
   overflow: scroll;

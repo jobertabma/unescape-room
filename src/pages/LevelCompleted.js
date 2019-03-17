@@ -43,10 +43,22 @@ class LevelCompleted extends Component {
               </div>
 
               {this.props.hasNextLevel &&
-                <button onClick={this.props.onNextlevel}>Advance to next level</button>}
+                <div className="section">
+                  <div onClick={this.props.onNextlevel} className="practice-run">
+                    <strong>Advance to next level</strong>
+                    <br />
+                    <span>A new level is lined up for you, have fun!</span>
+                  </div>
+                </div>}
 
               {!this.props.hasNextLevel &&
-                <button onClick={this.props.onFinish}>Game summary</button>}
+                <div className="section">
+                  <div onClick={this.props.onFinish} className="practice-run">
+                    <strong>Game summary</strong>
+                    <br />
+                    <span>Wow, you have completed the game, let's see how you did!</span>
+                  </div>
+                </div>}
             </div>
           </div>
           <Footer />

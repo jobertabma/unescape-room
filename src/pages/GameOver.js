@@ -43,6 +43,9 @@ class MatchOver extends Component {
 
               <div className="section">
                 <h1>{this.props.totalPoints}</h1>
+                {" "}<a href={this.twitterShareLink()} rel="noopener noreferrer" target="_blank">
+                  Share this!
+                </a>
               </div>
 
               <div className="section">
@@ -53,16 +56,25 @@ class MatchOver extends Component {
                 <h1><FormattedTime seconds={this.props.totalTimeSpent} /></h1>
               </div>
 
-              <br />
-              <button onClick={this.props.onPractice}>Practice</button>
-              <br />
-              <button onClick={this.props.onMatch}>New match</button>
-              <br />
-              <a href={this.twitterShareLink()} rel="noopener noreferrer" target="_blank">
-                Share
-              </a>
-              <br />
-              <button onClick={this.props.onGoHome}>Home</button>
+              <div>
+                <div onClick={this.props.onPractice} className="practice-run">
+                  <strong>Practice run</strong>
+                  <br />
+                  <span>Learn the ropes and get a feel for the game</span>
+                </div>
+
+                <div onClick={this.props.onMatch} className="play-a-match section">
+                  <strong>Play a match</strong>
+                  <br />
+                  <span>A race against the clock, levels become increasingly more difficult</span>
+                </div>
+
+                <div onClick={this.props.onGoHome} className="play-a-match section">
+                  <strong>Home</strong>
+                  <br />
+                  <span>I need some rest, take me back to the main screen</span>
+                </div>
+              </div>
             </div>
           </div>
           <Footer />

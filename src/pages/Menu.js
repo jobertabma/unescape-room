@@ -26,9 +26,17 @@ class Menu extends Component {
 
               <div className="section card">
                 <div>
-                  <button onClick={this.props.onPractice}>Practice</button>
-                  <br />
-                  <button onClick={this.props.onMatch}>Match</button>
+                  <div onClick={this.props.onPractice} className="practice-run">
+                    <strong>Practice run</strong>
+                    <br />
+                    <span>Learn the ropes and get a feel for the game</span>
+                  </div>
+
+                  <div onClick={this.props.onMatch} className="play-a-match section">
+                    <strong>Play a match</strong>
+                    <br />
+                    <span>A race against the clock, levels become increasingly more difficult</span>
+                  </div>
                 </div>
 
                 {this.props.highestScore &&
