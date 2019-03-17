@@ -118,6 +118,30 @@ code {
   border-bottom: 1px solid #ff9999;
 }
 
+.left-tab {
+  float: left;
+  width: 50%;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.no-border {
+  border: 0;
+}
+
+.margin-right-4px {
+  margin-right: 4px;
+}
+
+.right-tab {
+  float: right;
+  width: 50%;
+  text-align: center;
+}
+
 .isCompleted {
   background-color: #32cd32;
   color: black;

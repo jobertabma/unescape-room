@@ -24,7 +24,7 @@ class CodeEditor extends Component {
       <div>
         <div className="section">
           <div>
-            <div style={{ width: "50%", float: "left", textAlign: "center" }}>
+            <div className="left-tab">
               <span
                 className={classNames({ "button": this.state.view !== CodeEditor.VIEW_SOURCE })}
                 onClick={() => this.updateView(CodeEditor.VIEW_SOURCE)}
@@ -32,7 +32,7 @@ class CodeEditor extends Component {
                 View HTML source
               </span>
             </div>
-            <div style={{ width: "50%", float: "right", textAlign: "center" }}>
+            <div className="right-tab">
               <span
                 className={classNames({ "button": this.state.view !== CodeEditor.VIEW_DOM })}
                 onClick={() => this.updateView(CodeEditor.VIEW_DOM)}
@@ -44,7 +44,7 @@ class CodeEditor extends Component {
           </div>
           {this.state.view === CodeEditor.VIEW_SOURCE &&
             <div>
-              <iframe title="sandbox" style={{ display: 'none' }} src={this.props.source} />
+              <iframe title="sandbox" className="hidden" src={this.props.source} />
 
               <pre className="source language-html">
                 <code>
@@ -56,7 +56,7 @@ class CodeEditor extends Component {
             </div>}
 
           {this.state.view === CodeEditor.VIEW_DOM &&
-            <iframe title="sandbox" style={{ border: 0 }} src={this.props.source} />
+            <iframe title="sandbox" className="no-border" src={this.props.source} />
           }
 
           {this.props.currentErrorDescription !== null &&

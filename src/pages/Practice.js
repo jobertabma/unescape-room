@@ -44,7 +44,7 @@ class Practice extends Component {
 
             <div className="gameOptions">
               <select
-                style={{ marginRight: '4px' }}
+                className="margin-right-4px"
                 defaultValue={String(this.state.currentLevel - 1)}
                 onChange={(event) => this.handleChangeLevel(event.target.value)}
               >
