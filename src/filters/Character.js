@@ -1,6 +1,6 @@
 import _ from 'underscore';
 
-class CaseSensitiveCharacter {
+class Character {
   process(payload) {
     return payload.split(this.value).join("");
   }
@@ -11,7 +11,7 @@ class CaseSensitiveCharacter {
 
   isValidCombination(filters, allowedCharacters) {
     let isInvalid = _.some(filters, (filter) => (
-      filter instanceof CaseSensitiveCharacter &&
+      filter instanceof Character &&
         filter.value === this.value
     ));
 
@@ -21,4 +21,4 @@ class CaseSensitiveCharacter {
   }
 }
 
-export default CaseSensitiveCharacter;
+export default Character;

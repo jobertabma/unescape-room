@@ -1,11 +1,9 @@
 import _ from 'underscore';
 
-import CaseSensitivePhraseFilter from '../filters/CaseSensitivePhrase.js';
-import CaseInsensitivePhraseFilter from '../filters/CaseInsensitivePhrase.js';
+import AlphaFilter from '../filters/Alpha.js';
+import PhraseFilter from '../filters/Phrase.js';
 import StringReverseFilter from '../filters/StringReverse.js';
-import CaseSensitiveAlphaFilter from '../filters/CaseSensitiveAlpha.js';
-import CaseInsensitiveAlphaFilter from '../filters/CaseInsensitiveAlpha.js';
-import CaseSensitiveCharacterFilter from '../filters/CaseSensitiveCharacter.js';
+import CharacterFilter from '../filters/Character.js';
 import SpecialCharacterFilter from '../filters/SpecialCharacter.js';
 import NumberFilter from '../filters/Number.js';
 import EscapeFilter from '../filters/Escape.js';
@@ -22,12 +20,10 @@ class Filters {
     let availableFilters = _.reject([
       filters > 0 && NumberFilter,
       filters > 1 && WhiteSpaceFilter,
-      filters > 2 && CaseSensitivePhraseFilter,
-      filters > 3 && CaseSensitiveAlphaFilter,
+      filters > 2 && PhraseFilter,
+      filters > 3 && AlphaFilter,
       filters > 4 && SpecialCharacterFilter,
       filters > 4 && EscapeFilter,
-      filters > 5 && CaseInsensitiveAlphaFilter,
-      filters > 5 && CaseInsensitivePhraseFilter,
       filters > 5 && AtobFilter,
       filters > 5 && StringReverseFilter,
       filters > 5 && LengthFilter
@@ -49,7 +45,7 @@ class Filters {
       while(tempFilter === undefined) {
         let valueToBeProcessed = _.random(0, 1) === 0 ? functionToBeCalled : valueToBePassed;
 
-        let possibleFilter = new CaseSensitiveCharacterFilter(
+        let possibleFilter = new CharacterFilter(
           valueToBeProcessed[_.random(0, valueToBeProcessed.length - 1)]
         );
 
@@ -70,6 +66,10 @@ class Filters {
         generatedFilters.push(tempFilter);
       }
     }
+
+    // _.map(generatedFilters, (item) => {
+    //   console.log(item.constructor.name, item.value);
+    // });
 
     return ShuffleHelper.shuffle(generatedFilters);
   }
