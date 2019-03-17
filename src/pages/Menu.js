@@ -29,8 +29,6 @@ class Menu extends Component {
                   <button onClick={this.props.onPractice}>Practice</button>
                   <br />
                   <button onClick={this.props.onMatch}>Match</button>
-                  <br />
-                  <button onClick={this.props.onHowTo}>How to</button>
                 </div>
 
                 {this.props.highestScore &&

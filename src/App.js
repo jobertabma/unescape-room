@@ -11,7 +11,6 @@ import ValueGenerator from './generators/Value.js';
 import FiltersGenerator from './generators/Filters.js';
 
 import Menu from './pages/Menu.js';
-import HowTo from './pages/HowTo.js';
 import LevelCompleted from './pages/LevelCompleted.js';
 import GameOver from './pages/GameOver.js';
 import Match from './pages/Match.js';
@@ -24,7 +23,6 @@ class App extends Component {
   static SECONDS_PER_LEVEL = 180;
 
   static GAME_STATE_MENU = 'menu';
-  static GAME_STATE_HOW_TO = 'howto';
   static GAME_STATE_PRACTICE = 'practice';
   static GAME_STATE_MATCH = 'match';
   static GAME_STATE_MATCH_LEVEL_COMPLETE = 'match-level-complete';
@@ -234,7 +232,6 @@ class App extends Component {
         highestScore={Score.getCurrentHighestScore()}
         highestLevel={Score.getCurrentHighestLevel()}
         maxLevel={App.MAX_LEVEL}
-        onHowTo={this.handleGoHowTo}
       />
     );
   }
@@ -305,14 +302,6 @@ class App extends Component {
     );
   }
 
-  renderHowTo() {
-    return (
-      <HowTo
-        onGoHome={this.handleGoHome}
-      />
-    );
-  }
-
   handleGoHome = () => {
     this.handleEndGame();
 
@@ -339,8 +328,6 @@ class App extends Component {
     switch (this.state.gameState) {
       case App.GAME_STATE_MENU:
         return this.renderMenu();
-      case App.GAME_STATE_HOW_TO:
-        return this.renderHowTo();
       case App.GAME_STATE_PRACTICE:
         return this.renderPractice();
       case App.GAME_STATE_MATCH:
