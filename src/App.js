@@ -165,9 +165,9 @@ class App extends Component {
     this.handleCreateLevel(filters, match);
   }
 
-  handlePayloadChange(event) {
+  handlePayloadChange(value) {
     this.setState({
-      payload: event.target.value,
+      payload: value,
       currentErrorLine: null,
       currentErrorDescription: null
     });
@@ -226,6 +226,7 @@ class App extends Component {
     return (
       <Practice
         currentLevel={this.state.filters.length + 1}
+        filters={this.state.filters}
         maxLevel={App.MAX_LEVEL}
         onGoHome={this.handleGoHome}
         onStartGame={(value) => {
@@ -252,6 +253,7 @@ class App extends Component {
       <Match
         currentLevel={this.state.filters.length + 1}
         maxLevel={App.MAX_LEVEL}
+        filters={this.state.filters}
         onStop={() => {
           this.handleEndGame();
           this.setState({

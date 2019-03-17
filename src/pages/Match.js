@@ -46,6 +46,7 @@ class Match extends Component {
                 source={this.props.source}
                 currentErrorDescription={this.props.currentErrorDescription}
                 currentErrorLine={this.props.currentErrorLine}
+                filters={this.props.filters}
               />
 
               <div className="section">
