@@ -210,20 +210,6 @@ class App extends Component {
     return "data:text/html;charset=utf-8," + escape(this.html());
   }
 
-  emojiState() {
-    if(this.state.payload === '') {
-      return '😶'
-    } else {
-      if(this.state.valuePassed) {
-        return '🥳';
-      } else if(this.state.functionCalled) {
-        return '🤭'
-      } else {
-        return '🧐';
-      }
-    }
-  }
-
   renderMenu() {
     return (
       <Menu
