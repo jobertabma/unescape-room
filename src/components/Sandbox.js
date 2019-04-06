@@ -1,25 +1,23 @@
-import _ from 'underscore';
-import React, { Component } from 'react';
+import _ from "underscore";
+import React, { Component } from "react";
 
-import CodeEditor from './CodeEditor.js';
+import CodeEditor from "./CodeEditor.js";
 
-import Atob from '../filters/Atob.js';
+import Atob from "../filters/Atob.js";
 
 class Sandbox extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      payload: ''
+      payload: ""
     };
 
     this.transformPayload = this.transformPayload.bind(this);
   }
 
   hasAtobFilter() {
-    return _.some(this.props.filters, (item) => (
-      item instanceof Atob
-    ));
+    return _.some(this.props.filters, item => item instanceof Atob);
   }
 
   transformPayload(event) {
@@ -34,22 +32,25 @@ class Sandbox extends Component {
     return (
       <div>
         <div>
-          {this.hasAtobFilter() &&
+          {this.hasAtobFilter() && (
             <input
               className="userPayloadInput"
               type="text"
               value={this.state.payload}
               onChange={this.transformPayload}
               style={{ marginBottom: "15px" }}
-              placeholder='(payload)'
-            />}
+              placeholder="(payload)"
+            />
+          )}
 
           <input
             className="userPayloadInput"
             type="text"
             value={this.props.payload}
-            onChange={(event) => this.props.onPayloadChange(event.target.value)}
-            placeholder={this.hasAtobFilter() ? '(transformed payload)' : '(payload)'}
+            onChange={event => this.props.onPayloadChange(event.target.value)}
+            placeholder={
+              this.hasAtobFilter() ? "(transformed payload)" : "(payload)"
+            }
             autoFocus={true}
           />
         </div>
@@ -63,7 +64,7 @@ class Sandbox extends Component {
           currentErrorLine={this.props.currentErrorLine}
         />
       </div>
-    )
+    );
   }
 }
 

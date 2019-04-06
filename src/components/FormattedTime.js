@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class FormattedTime extends Component {
   minutes() {
-    return String(Math.floor(this.props.seconds / 60)).padStart(2, '0');
+    return String(Math.floor(this.props.seconds / 60)).padStart(2, "0");
   }
 
   seconds() {
-    return String(this.props.seconds % 60).padStart(2, '0')
+    return String(this.props.seconds % 60).padStart(2, "0");
   }
 
   render() {

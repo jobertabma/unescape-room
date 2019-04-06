@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from "underscore";
 
 class Character {
   process(payload) {
@@ -10,12 +10,13 @@ class Character {
   }
 
   isValidCombination(filters, allowedCharacters) {
-    let isInvalid = _.some(filters, (filter) => (
-      filter instanceof Character &&
-        filter.value === this.value
-    ));
+    let isInvalid = _.some(
+      filters,
+      filter => filter instanceof Character && filter.value === this.value
+    );
 
-    isInvalid = isInvalid || this.process(allowedCharacters) !== allowedCharacters
+    isInvalid =
+      isInvalid || this.process(allowedCharacters) !== allowedCharacters;
 
     return !isInvalid;
   }

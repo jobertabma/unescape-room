@@ -1,32 +1,32 @@
-import React, { Component } from 'react';
-import _ from 'underscore';
+import React, { Component } from "react";
+import _ from "underscore";
 
-import './App.css';
-import './Prism.css';
+import "./App.css";
+import "./Prism.css";
 
-import HtmlTemplateGenerator from './generators/HtmlTemplate.js';
-import ListenerTemplateGenerator from './generators/ListenerTemplate.js';
-import FunctionGenerator from './generators/Function.js';
-import ValueGenerator from './generators/Value.js';
-import FiltersGenerator from './generators/Filters.js';
+import HtmlTemplateGenerator from "./generators/HtmlTemplate.js";
+import ListenerTemplateGenerator from "./generators/ListenerTemplate.js";
+import FunctionGenerator from "./generators/Function.js";
+import ValueGenerator from "./generators/Value.js";
+import FiltersGenerator from "./generators/Filters.js";
 
-import Menu from './pages/Menu.js';
-import LevelCompleted from './pages/LevelCompleted.js';
-import GameOver from './pages/GameOver.js';
-import Match from './pages/Match.js';
-import Practice from './pages/Practice.js';
+import Menu from "./pages/Menu.js";
+import LevelCompleted from "./pages/LevelCompleted.js";
+import GameOver from "./pages/GameOver.js";
+import Match from "./pages/Match.js";
+import Practice from "./pages/Practice.js";
 
-import Score from './helpers/Score.js';
+import Score from "./helpers/Score.js";
 
 class App extends Component {
   static MAX_LEVEL = 10;
   static SECONDS_PER_LEVEL = 180;
 
-  static GAME_STATE_MENU = 'menu';
-  static GAME_STATE_PRACTICE = 'practice';
-  static GAME_STATE_MATCH = 'match';
-  static GAME_STATE_MATCH_LEVEL_COMPLETE = 'match-level-complete';
-  static GAME_STATE_MATCH_OVER = 'match-over';
+  static GAME_STATE_MENU = "menu";
+  static GAME_STATE_PRACTICE = "practice";
+  static GAME_STATE_MATCH = "match";
+  static GAME_STATE_MATCH_LEVEL_COMPLETE = "match-level-complete";
+  static GAME_STATE_MATCH_OVER = "match-over";
 
   constructor(props) {
     super(props);
@@ -40,7 +40,7 @@ class App extends Component {
   }
 
   handleEndGame() {
-    if(this.state.timer) {
+    if (this.state.timer) {
       clearInterval(this.state.timer);
       this.setState({
         timer: null
@@ -48,7 +48,7 @@ class App extends Component {
     }
 
     if (this.state.eventListener) {
-      window.removeEventListener('message', this.state.eventListener);
+      window.removeEventListener("message", this.state.eventListener);
       this.setState({
         eventListener: null
       });
@@ -67,23 +67,23 @@ class App extends Component {
         gameState: App.GAME_STATE_MATCH,
         secondsRemaining: App.SECONDS_PER_LEVEL,
         timer: (function(_this) {
-            return setInterval(() => {
-              let newSecondsRemaining = _this.state.secondsRemaining - 1;
+          return setInterval(() => {
+            let newSecondsRemaining = _this.state.secondsRemaining - 1;
 
-              if (newSecondsRemaining < 1) {
-                _this.handleEndGame();
+            if (newSecondsRemaining < 1) {
+              _this.handleEndGame();
 
-                _this.setState({
-                  gameState: App.GAME_STATE_MATCH_OVER,
-                  secondsRemaining: 0
-                });
-              } else {
-                _this.setState({
-                  secondsRemaining: newSecondsRemaining
-                });
-              }
-            }, 1000);
-          })(this)
+              _this.setState({
+                gameState: App.GAME_STATE_MATCH_OVER,
+                secondsRemaining: 0
+              });
+            } else {
+              _this.setState({
+                secondsRemaining: newSecondsRemaining
+              });
+            }
+          }, 1000);
+        })(this)
       });
     } else {
       this.setState({
@@ -95,20 +95,25 @@ class App extends Component {
       functionCalled: false,
       valuePassed: false,
       template: htmlTemplate,
-      payload: '',
+      payload: "",
       functionToBeCalled: functionToBeCalled,
       valueToBePassed: valueToBePassed,
       currentErrorDescription: null,
       currentErrorLine: null,
       listenerTemplate: ListenerTemplateGenerator.generate(functionToBeCalled),
-      filters: FiltersGenerator.generate(htmlTemplate, functionToBeCalled, valueToBePassed, filters),
+      filters: FiltersGenerator.generate(
+        htmlTemplate,
+        functionToBeCalled,
+        valueToBePassed,
+        filters
+      ),
       eventListener: (function(_this) {
-        window.addEventListener('message', function(event) {
-          if (typeof event.data !== 'object') {
+        window.addEventListener("message", function(event) {
+          if (typeof event.data !== "object") {
             return false;
           }
 
-          switch(event.data.function) {
+          switch (event.data.function) {
             case _this.state.functionToBeCalled:
               _this.setState({
                 functionCalled: true
@@ -120,12 +125,15 @@ class App extends Component {
                 _this.setState({
                   valuePassed: true,
                   currentErrorDescription: null,
-                  currentErrorLine: null,
+                  currentErrorLine: null
                 });
 
                 if (_this.state.gameState !== App.GAME_STATE_PRACTICE) {
-                  let totalPoints = _this.state.totalPoints + _this.state.secondsRemaining;
-                  let totalTimeSpent = _this.state.totalTimeSpent + (App.SECONDS_PER_LEVEL - _this.state.secondsRemaining);
+                  let totalPoints =
+                    _this.state.totalPoints + _this.state.secondsRemaining;
+                  let totalTimeSpent =
+                    _this.state.totalTimeSpent +
+                    (App.SECONDS_PER_LEVEL - _this.state.secondsRemaining);
 
                   _this.setState({
                     totalPoints: totalPoints,
@@ -141,15 +149,15 @@ class App extends Component {
                   valuePassed: false
                 });
               }
-            break;
-            case 'errorHandler':
+              break;
+            case "errorHandler":
               _this.setState({
                 currentErrorDescription: event.data.error,
                 currentErrorLine: event.data.line
               });
-            break;
+              break;
             default:
-            break;
+              break;
           }
         });
       })(this)
@@ -176,15 +184,19 @@ class App extends Component {
   processedPayload() {
     let processedPayload = this.state.payload;
 
-    _.map(this.state.filters, filter => (
-      processedPayload = filter.process(processedPayload)
-    ));
+    _.map(
+      this.state.filters,
+      filter => (processedPayload = filter.process(processedPayload))
+    );
 
     return processedPayload;
   }
 
   html() {
-    let html = this.state.template.replace(/{payload}/, this.processedPayload());
+    let html = this.state.template.replace(
+      /{payload}/,
+      this.processedPayload()
+    );
 
     html = html.replace(/{listener}/, this.state.listenerTemplate);
 
@@ -192,7 +204,7 @@ class App extends Component {
   }
 
   source() {
-    let html = this.state.template.replace(/\s+?{listener}/, '');
+    let html = this.state.template.replace(/\s+?{listener}/, "");
 
     let parts = html.split("{payload}");
 
@@ -202,8 +214,8 @@ class App extends Component {
     return {
       prefix: prefix,
       payload: this.processedPayload(),
-      postfix: postfix,
-    }
+      postfix: postfix
+    };
   }
 
   src() {
@@ -229,8 +241,8 @@ class App extends Component {
         filters={this.state.filters}
         maxLevel={App.MAX_LEVEL}
         onGoHome={this.handleGoHome}
-        onStartGame={(value) => {
-          this.handleStartGame(parseInt(value), false)
+        onStartGame={value => {
+          this.handleStartGame(parseInt(value), false);
         }}
         functionCalled={this.state.functionCalled}
         functionToBeCalled={this.state.functionToBeCalled}
@@ -258,7 +270,8 @@ class App extends Component {
           this.handleEndGame();
           this.setState({
             gameState: App.GAME_STATE_MATCH_OVER
-          })}}
+          });
+        }}
         functionCalled={this.state.functionCalled}
         functionToBeCalled={this.state.functionToBeCalled}
         valuePassed={this.state.valuePassed}
@@ -273,7 +286,7 @@ class App extends Component {
         currentErrorLine={this.state.currentErrorLine}
         secondsRemaining={this.state.secondsRemaining}
       />
-    )
+    );
   }
 
   renderMatchOver() {
@@ -281,9 +294,14 @@ class App extends Component {
       <GameOver
         totalPoints={this.state.totalPoints}
         totalTimeSpent={this.state.totalTimeSpent}
-        onPractice={() => this.handleStartGame(this.state.filters.length, false)}
+        onPractice={() =>
+          this.handleStartGame(this.state.filters.length, false)
+        }
         onMatch={() => this.handleStartGame(0)}
-        shareMessage={`I just completed a game of the unescape() room to improve my XSS skills — I scored ${this.state.totalPoints} points and made it to level ${this.state.filters.length + 1}! https://unescape-room.jobertabma.nl`}
+        shareMessage={`I just completed a game of the unescape() room to improve my XSS skills — I scored ${
+          this.state.totalPoints
+        } points and made it to level ${this.state.filters.length +
+          1}! https://unescape-room.jobertabma.nl`}
         onGoHome={this.handleGoHome}
         filters={this.state.filters}
       />
@@ -293,19 +311,21 @@ class App extends Component {
   handleGoHome = () => {
     this.handleEndGame();
 
-    this.setState({ gameState: App.GAME_STATE_MENU })
-  }
+    this.setState({ gameState: App.GAME_STATE_MENU });
+  };
 
   handleGoHowTo = () => {
-    this.setState({ gameState: App.GAME_STATE_HOW_TO })
-  }
+    this.setState({ gameState: App.GAME_STATE_HOW_TO });
+  };
 
   renderMatchLevelCompleted() {
     return (
       <LevelCompleted
         totalTimeRemaining={App.SECONDS_PER_LEVEL - this.state.secondsRemaining}
         totalPoints={this.state.totalPoints}
-        onNextlevel={() => this.handleCreateLevel(this.state.filters.length + 1)}
+        onNextlevel={() =>
+          this.handleCreateLevel(this.state.filters.length + 1)
+        }
         hasNextLevel={this.state.filters.length + 1 < App.MAX_LEVEL}
         onFinish={() => this.setState({ gameState: App.GAME_STATE_MATCH_OVER })}
       />

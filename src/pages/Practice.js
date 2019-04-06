@@ -1,10 +1,10 @@
-import _ from 'underscore';
-import React, { Component } from 'react';
+import _ from "underscore";
+import React, { Component } from "react";
 
-import Sandbox from '../components/Sandbox.js';
-import Challenge from '../components/Challenge.js';
-import Footer from '../components/Footer.js';
-import Header from '../components/Header.js';
+import Sandbox from "../components/Sandbox.js";
+import Challenge from "../components/Challenge.js";
+import Footer from "../components/Footer.js";
+import Header from "../components/Header.js";
 
 class Practice extends Component {
   constructor(props) {
@@ -46,22 +46,20 @@ class Practice extends Component {
               <select
                 className="margin-right-4px"
                 defaultValue={String(this.state.currentLevel - 1)}
-                onChange={(event) => this.handleChangeLevel(event.target.value)}
+                onChange={event => this.handleChangeLevel(event.target.value)}
               >
-                {_.times(this.props.maxLevel, (index) => (
-                  <option key={index} value={index}>Level {index + 1}</option>
+                {_.times(this.props.maxLevel, index => (
+                  <option key={index} value={index}>
+                    Level {index + 1}
+                  </option>
                 ))}
-              </select>
-              {" "}|{" "}
-              <span className="button"
-                onClick={this.handleNewLevel}
-              >
+              </select>{" "}
+              |{" "}
+              <span className="button" onClick={this.handleNewLevel}>
                 New
-              </span>
-              {" "}|{" "}
-              <span className="button"
-                onClick={this.props.onGoHome}
-              >
+              </span>{" "}
+              |{" "}
+              <span className="button" onClick={this.props.onGoHome}>
                 Stop
               </span>
             </div>

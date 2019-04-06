@@ -1,6 +1,6 @@
-import _ from 'underscore';
+import _ from "underscore";
 
-import AsciiHelper from '../helpers/Ascii.js';
+import AsciiHelper from "../helpers/Ascii.js";
 
 class Value {
   static generate(filters) {
@@ -15,13 +15,11 @@ class Value {
 
     let valueToBePassed = [];
 
-    for(let i = 1; i <= Math.floor((filters + 1) * 1.25); i++) {
-      valueToBePassed.push(
-        characters[_.random(0, characters.length - 1)]
-      );
+    for (let i = 1; i <= Math.floor((filters + 1) * 1.25); i++) {
+      valueToBePassed.push(characters[_.random(0, characters.length - 1)]);
     }
 
-    return valueToBePassed.join('');
+    return valueToBePassed.join("");
   }
 }
 

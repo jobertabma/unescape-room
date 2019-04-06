@@ -1,8 +1,8 @@
-import _ from 'underscore';
+import _ from "underscore";
 
-import App  from '../App.js';
+import App from "../App.js";
 
-import AsciiHelper from '../helpers/Ascii.js';
+import AsciiHelper from "../helpers/Ascii.js";
 
 class Alpha {
   constructor(value, caseInsensitive, globalMatch) {
@@ -12,28 +12,31 @@ class Alpha {
   }
 
   process(payload) {
-    let flags = []
+    let flags = [];
 
     if (this.globalMatch) {
-      flags.push('g');
+      flags.push("g");
     }
 
     if (this.caseInsensitive) {
-      flags.push('i');
+      flags.push("i");
     }
 
-    let regularExpression = new RegExp(this.value, flags.join(''));
+    let regularExpression = new RegExp(this.value, flags.join(""));
 
-    return payload.replace(regularExpression, '');
+    return payload.replace(regularExpression, "");
   }
 
   isValidCombination(filters, allowedCharacters) {
-    let isInvalid = _.some(filters, (filter) => (
-      filter instanceof Alpha &&
+    let isInvalid = _.some(
+      filters,
+      filter =>
+        filter instanceof Alpha &&
         filter.value.toLowerCase() === this.value.toLowerCase()
-    ));
+    );
 
-    isInvalid = isInvalid || this.process(allowedCharacters) !== allowedCharacters
+    isInvalid =
+      isInvalid || this.process(allowedCharacters) !== allowedCharacters;
 
     return !isInvalid;
   }
@@ -41,7 +44,7 @@ class Alpha {
   static generate(filters) {
     const characters = _.flatten([
       AsciiHelper.lowerCaseAlphabet(),
-      AsciiHelper.upperCaseAlphabet(),
+      AsciiHelper.upperCaseAlphabet()
     ]);
 
     let caseInsensitive = filters <= _.random(0, App.MAX_LEVEL);

@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Sandbox from '../components/Sandbox.js';
-import FormattedTime from '../components/FormattedTime.js';
-import Challenge from '../components/Challenge.js';
-import Footer from '../components/Footer.js';
-import Header from '../components/Header.js';
+import Sandbox from "../components/Sandbox.js";
+import FormattedTime from "../components/FormattedTime.js";
+import Challenge from "../components/Challenge.js";
+import Footer from "../components/Footer.js";
+import Header from "../components/Header.js";
 
 class Match extends Component {
   render() {
@@ -50,9 +50,10 @@ class Match extends Component {
               />
 
               <div className="section">
-                Time remaining:
-                {" "}
-                <strong><FormattedTime seconds={this.props.secondsRemaining} /></strong>
+                Time remaining:{" "}
+                <strong>
+                  <FormattedTime seconds={this.props.secondsRemaining} />
+                </strong>
               </div>
             </div>
           </div>

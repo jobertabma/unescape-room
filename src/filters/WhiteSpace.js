@@ -1,8 +1,8 @@
-import _ from 'underscore';
+import _ from "underscore";
 
 class WhiteSpace {
   process(payload) {
-    return payload.replace(/\s+/g, '');
+    return payload.replace(/\s+/g, "");
   }
 
   static generate(_filters) {
@@ -10,9 +10,7 @@ class WhiteSpace {
   }
 
   isValidCombination(filters, _allowedCharacters) {
-    let isInvalid = _.some(filters, (filter) => (
-      filter instanceof WhiteSpace
-    ));
+    let isInvalid = _.some(filters, filter => filter instanceof WhiteSpace);
 
     return !isInvalid;
   }

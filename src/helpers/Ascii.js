@@ -1,6 +1,22 @@
 class Ascii {
   static specialCharacters() {
-    return ['(', ')', '{', '}', ';', '.', '[', ']', '<', '>', '+', '-', '`', '%', '\\'];
+    return [
+      "(",
+      ")",
+      "{",
+      "}",
+      ";",
+      ".",
+      "[",
+      "]",
+      "<",
+      ">",
+      "+",
+      "-",
+      "`",
+      "%",
+      "\\"
+    ];
   }
 
   static numbers() {
@@ -10,7 +26,7 @@ class Ascii {
   static lowerCaseAlphabet() {
     let characters = [];
 
-    for(var i = 97; i <= 122; i++) {
+    for (var i = 97; i <= 122; i++) {
       characters.push(String.fromCharCode(i));
     }
 
@@ -20,7 +36,7 @@ class Ascii {
   static upperCaseAlphabet() {
     let characters = [];
 
-    for(var i = 65; i <= 90; i++) {
+    for (var i = 65; i <= 90; i++) {
       characters.push(String.fromCharCode(i));
     }
 

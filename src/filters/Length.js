@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from "underscore";
 
 class Length {
   process(payload) {
@@ -6,9 +6,7 @@ class Length {
   }
 
   isValidCombination(filters, _allowedCharacters) {
-    let isInvalid = _.some(filters, (filter) => (
-      filter instanceof Length
-    ));
+    let isInvalid = _.some(filters, filter => filter instanceof Length);
 
     return !isInvalid;
   }

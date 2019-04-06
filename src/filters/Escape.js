@@ -1,12 +1,7 @@
-import _ from 'underscore';
+import _ from "underscore";
 
 class Escape {
-  static SET = [
-    '\'',
-    '"',
-    '\\',
-    '`'
-  ];
+  static SET = ["'", '"', "\\", "`"];
 
   process(payload) {
     return payload.split(this.value).join("");
@@ -17,18 +12,19 @@ class Escape {
   }
 
   isValidCombination(filters, allowedCharacters) {
-    let isInvalid = _.some(filters, (filter) => (
-      filter instanceof Escape &&
-        filter.value === this.value
-    ));
+    let isInvalid = _.some(
+      filters,
+      filter => filter instanceof Escape && filter.value === this.value
+    );
 
-    isInvalid = isInvalid || this.process(allowedCharacters) !== allowedCharacters
+    isInvalid =
+      isInvalid || this.process(allowedCharacters) !== allowedCharacters;
 
     return !isInvalid;
   }
 
   static generate(_filters) {
-    return new this(this.SET[_.random(0, this.SET.length -1 )]);
+    return new this(this.SET[_.random(0, this.SET.length - 1)]);
   }
 }
 

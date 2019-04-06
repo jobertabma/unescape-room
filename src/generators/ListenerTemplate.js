@@ -19,7 +19,7 @@ class ListenerTemplate {
     </script>
     `;
 
-    return script.replace('{number_of_lines}', script.split("\n").length);
+    return script.replace("{number_of_lines}", script.split("\n").length);
   }
 }
 

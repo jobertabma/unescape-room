@@ -1,6 +1,6 @@
-import _ from 'underscore';
+import _ from "underscore";
 
-import AsciiHelper from '../helpers/Ascii.js';
+import AsciiHelper from "../helpers/Ascii.js";
 
 class SpecialCharacter {
   process(payload) {
@@ -12,19 +12,23 @@ class SpecialCharacter {
   }
 
   isValidCombination(filters, allowedCharacters) {
-    let isInvalid = _.some(filters, (filter) => (
-      filter instanceof SpecialCharacter &&
-        filter.value === this.value
-    ));
+    let isInvalid = _.some(
+      filters,
+      filter =>
+        filter instanceof SpecialCharacter && filter.value === this.value
+    );
 
-    isInvalid = isInvalid || this.process(allowedCharacters) !== allowedCharacters
+    isInvalid =
+      isInvalid || this.process(allowedCharacters) !== allowedCharacters;
 
     return !isInvalid;
   }
 
   static generate(_filters) {
     return new this(
-      AsciiHelper.specialCharacters()[_.random(0, AsciiHelper.specialCharacters().length - 1)]
+      AsciiHelper.specialCharacters()[
+        _.random(0, AsciiHelper.specialCharacters().length - 1)
+      ]
     );
   }
 }
